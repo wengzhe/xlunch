@@ -1,5 +1,20 @@
 #!/usr/bin/env fish
 # Auto-generated file, DO NOT EDIT
+function xemulator --description 'Launch QEMU emulator for current lunch target'
+    set -l xenv (pwd)/.xenv.sh
+    if test -f $xenv
+        bash -c "
+            source build/envsetup.sh
+            source $xenv
+            emulator $argv
+        "
+    else
+        echo 'ERROR: Please run `xlunch` first' >&2
+        return 1
+    end
+end
+
+funcsave xemulator 2>/dev/null; or true
 function xlunch --description 'bash envsetup.sh + lunch + export env'
     if not test -f build/envsetup.sh
         echo "Current directory is not a Vela project (build/envsetup.sh not found)." >&2
